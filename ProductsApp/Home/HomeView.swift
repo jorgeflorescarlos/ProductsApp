@@ -66,9 +66,12 @@ class HomeView: UIViewController {
     }
     
     func filterContentForSearchText(_ searchText: String) {
-        self.searchText = searchText
-        paginationNumber = 0
-        self.presenter?.searchProduct(with: searchText, page: 0)
+        if(searchText != self.searchText) {
+            self.searchText = searchText
+            paginationNumber = 0
+            self.presenter?.searchProduct(with: searchText, page: 0)
+        }
+        
     }
 }
 
@@ -133,6 +136,9 @@ extension HomeView: UIScrollViewDelegate {
 extension HomeView: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
-        filterContentForSearchText(searchBar.text!)
+        if(searchBar.text!.count > 0) {
+            filterContentForSearchText(searchBar.text!)
+        }
+        
     }
 }
